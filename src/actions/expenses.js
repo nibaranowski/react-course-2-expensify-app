@@ -1,11 +1,11 @@
 import uuid from 'uuid';
 import database from '../firebase/firebase';
 
-//ADD_EXPENSE
+// ADD_EXPENSE
 export const addExpense = (expense) => ({
-    type: 'ADD_EXPENSE',
-    expense
-})
+  type: 'ADD_EXPENSE',
+  expense
+});
 
 export const startAddExpense = (expenseData = {}) => {
   return (dispatch, getState) => {
@@ -27,8 +27,8 @@ export const startAddExpense = (expenseData = {}) => {
   };
 };
 
-//REMOVE_EXPENSE
-export const removeExpense = ({ id } = {}) => ({ //this is removeExpense Generator
+// REMOVE_EXPENSE
+export const removeExpense = ({ id } = {}) => ({
   type: 'REMOVE_EXPENSE',
   id
 });
@@ -37,12 +37,12 @@ export const startRemoveExpense = ({ id } = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     return database.ref(`users/${uid}/expenses/${id}`).remove().then(() => {
-      dispatch(removeExpense( { id }));
+      dispatch(removeExpense({ id }));
     });
   };
 };
 
-//EDIT_EXPENSE
+// EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
   type: 'EDIT_EXPENSE',
   id,
@@ -67,7 +67,6 @@ export const setExpenses = (expenses) => ({
 export const startSetExpenses = () => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-
     return database.ref(`users/${uid}/expenses`).once('value').then((snapshot) => {
       const expenses = [];
 
@@ -79,7 +78,6 @@ export const startSetExpenses = () => {
       });
 
       dispatch(setExpenses(expenses));
-    })
+    });
   };
 };
-
